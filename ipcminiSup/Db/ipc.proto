@@ -1,0 +1,331 @@
+# Stream Device Protocol for the Agilent IPCMini Pump Controller Window Protocol
+#
+# Message format is:
+#      <STX><ADR><WIN><COM><DATA><ETX><CRC>
+# where
+#      <STX>   : Start of transmission (1 byte) = 0x02
+#      <ADR>   : Unit Address (1 byte) = 0x80 for RS232
+#      <WIN>   : Window number (3 bytes)
+#      <COM>   : Command (1 bytes): Read = '0'(0x30), Write = '1'(0x31)
+#      <DATA>  : Optional - depends on <WIN>
+#      <ETX>   : End of transmission (1 byte) = 0x03
+#      <CRC>   : Checksum (2 bytes) - XOR of all characters following <STX>
+#
+# Arguments:
+# $1 = channel: 1 digit - 1-4
+
+ReplyTimeout = 1500;
+ReadTimeout = 200;
+
+addr = 0x80; # address
+rd   = 0x30; # read
+wr   = 0x31; # write
+ack  = 0x6; 
+nack = 0x15; 
+
+# If the IOC sends messages too fast for the device to handle, the user can
+# incorporate a down time between execution of protocols,
+# by changing the t_sleep[ms] value to a positive non - zero value
+t_sleep = 10;
+
+
+handleError
+{
+  in STX, 0x80, "%(\$1)d", ETX, "%01<xor>";
+}
+
+getMode
+{
+  MaxInput = 15;
+  out STX, 0x80, "008", $rd,          ETX, "%01<xor>";
+  in  STX, 0x80, "008", $rd, "%!06d", ETX, "%01<xor>";
+  wait $t_sleep;
+}
+
+setMode
+{
+  @init{ getMode }
+  @mismatch{ handleError; }
+  out STX, 0x80, "008", $wr,"%1d", ETX, "%01<xor>";
+  in  STX, 0x80, 0x06,             ETX, "%01<xor>";
+  wait $t_sleep;
+}
+
+getEnableCH
+{
+  MaxInput = 10;
+  out STX, 0x80, "011", $rd,       ETX, "%01<xor>";
+  in  STX, 0x80, "011", $rd, "%d", ETX, "%01<xor>";
+  wait $t_sleep;
+}
+
+setEnableCH
+{
+  @init{ getEnableCH }
+  @mismatch{ handleError; }
+  out STX, 0x80, "011", $wr,"%1d", ETX, "%01<xor>";
+  in  STX, 0x80, 0x06,             ETX, "%01<xor>";
+  wait $t_sleep;
+}
+
+getStatus
+{
+  MaxInput = 15;
+  out STX, 0x80, "205", $rd,          ETX, "%01<xor>";
+  in  STX, 0x80, "205", $rd, "%!06d", ETX, "%01<xor>";
+  wait $t_sleep;
+}
+
+
+getErrorCode
+{
+  MaxInput = 15;
+  out STX, 0x80, "206", $rd,          ETX, "%01<xor>";
+  in  STX, 0x80, "206", $rd, "%!06d", ETX, "%01<xor>";
+  wait $t_sleep;
+}
+
+getModel
+{
+  MaxInput = 20;
+  out STX, 0x80, "319", $rd,         ETX, "%01<xor>";
+  in  STX, 0x80, "319", $rd, "%11s", ETX, "%01<xor>";
+  wait $t_sleep;
+}
+
+getUnit
+{
+  MaxInput = 15;
+  out STX, 0x80, "600", $rd,       ETX, "%01<xor>";
+  in  STX, 0x80, "600", $rd, "%d", ETX, "%01<xor>";
+  wait $t_sleep;
+}
+
+setUnit
+{
+  @init{ getUnit; }
+  @mismatch{ handleError; }
+  out STX, 0x80, "600", $wr, "%d", ETX, "%01<xor>";
+  in  STX, 0x80, 0x06,             ETX, "%01<xor>";
+  wait $t_sleep;
+}
+
+getPressure
+{
+  MaxInput = 17;
+  out STX, 0x80, "812", $rd,       ETX, "%01<xor>";
+  in  STX, 0x80, "812", $rd, "%E", ETX, "%01<xor>";
+  wait $t_sleep;
+}
+
+getVoltage
+{
+  MaxInput = 15;
+  out STX, 0x80, "810", $rd,          ETX, "%01<xor>";
+  in  STX, 0x80, "810", $rd, "%!06d", ETX, "%01<xor>";
+  wait $t_sleep;
+}
+
+getCurrent
+{
+  MaxInput = 17;
+  out STX, 0x80, "811", $rd,       ETX, "%01<xor>";
+  in  STX, 0x80, "811", $rd, "%E", ETX, "%01<xor>";
+  wait $t_sleep;
+}
+
+getMaxPower
+{
+  MaxInput = 15;
+  out STX, 0x80, "612", $rd,          ETX, "%01<xor>";
+  in  STX, 0x80, "612", $rd, "%!06d", ETX, "%01<xor>";
+  wait $t_sleep;
+}
+
+setMaxPower
+{
+  @init{ getMaxPower; }
+  @mismatch{ handleError; }
+  out STX, 0x80, "612", $wr, "%u", ETX, "%01<xor>";
+  in  STX, 0x80, 0x06,             ETX, "%01<xor>";
+  wait $t_sleep;
+}
+
+getAutostart
+{
+  MaxInput = 10;
+  out STX, 0x80, "601", $rd,         ETX, "%01<xor>";
+  in  STX, 0x80, "601", $rd, "%!1d", ETX, "%01<xor>";
+  wait $t_sleep;
+}
+
+setAutostart
+{
+  @init{ getAutostart; }
+  @mismatch{ handleError; }
+  out STX, 0x80, "601", $wr, "%d", ETX, "%01<xor>";
+  in  STX, 0x80, 0x06,             ETX, "%01<xor>";
+  wait $t_sleep;
+}
+
+getProtectStatus
+{
+  MaxInput = 10;
+  out STX, 0x80, "602", $rd,         ETX, "%01<xor>";
+  in  STX, 0x80, "602", $rd, "%!1d", ETX, "%01<xor>";
+  wait $t_sleep;
+}
+
+setProtectStatus
+{
+  @init{ getProtectStatus; }
+  @mismatch{ handleError; }
+  out STX, 0x80, "602", $wr, "%d", ETX, "%01<xor>";
+  in  STX, 0x80, 0x06,             ETX, "%01<xor>";
+  wait $t_sleep;
+}
+
+getFixedStep
+{
+  MaxInput = 10;
+  out STX, 0x80, "603", $rd,         ETX, "%01<xor>";
+  in  STX, 0x80, "603", $rd, "%!1d", ETX, "%01<xor>";
+  wait $t_sleep;
+}
+
+setFixedStep
+{
+  @init{ getFixedStep; }
+  @mismatch{ handleError; }
+  out STX, 0x80, "603", $wr, "%d", ETX, "%01<xor>";
+  in  STX, 0x80, 0x06,             ETX, "%01<xor>";
+  wait $t_sleep;
+}
+
+getDeviceNumberCH
+{
+  ReplyTimeout = 2000;
+  MaxInput = 15;
+  out STX, 0x80, "610", $rd,       ETX, "%01<xor>";
+  in  STX, 0x80, "610", $rd, "%d", ETX, "%01<xor>";
+  wait $t_sleep;
+}
+
+setDeviceNumberCH
+{
+  @init{ getDeviceNumberCH; }
+  @mismatch{ handleError; }
+  out STX, 0x80, "610", $wr, "%d", ETX, "%01<xor>";
+  in  STX, 0x80, 0x06,             ETX, "%01<xor>";
+  wait $t_sleep;
+}
+
+getSetpoint
+{
+  MaxInput = 17;
+  out STX, 0x80, "615", $rd,       ETX, "%01<xor>";
+  in  STX, 0x80, "615", $rd, "%e", ETX, "%01<xor>";
+  wait $t_sleep;
+}
+
+setSetpoint
+{
+  @init{ getSetpoint; }
+  @mismatch{ handleError; }
+  out STX, 0x80, "615", $wr, "%1.1E", ETX, "%01<xor>";
+  in  STX, 0x80, 0x06,                ETX, "%01<xor>";
+  wait $t_sleep;
+}
+
+getVoltageSP
+{
+  MaxInput = 15;
+  out STX, 0x80, "613", $rd,          ETX, "%01<xor>";
+  in  STX, 0x80, "613", $rd, "%!06d", ETX, "%01<xor>";
+  wait $t_sleep;
+}
+
+setVoltageSP
+{
+  @init{ getVoltageSP; }
+  @mismatch{ handleError; }
+  out STX, 0x80, "613", $wr, "%d", ETX, "%01<xor>";
+  in  STX, 0x80, 0x06,             ETX, "%01<xor>";
+  wait $t_sleep;
+}
+
+getProtectCurrent
+{
+  MaxInput = 15;
+  out STX, 0x80, "614", $rd,          ETX, "%01<xor>";
+  in  STX, 0x80, "614", $rd, "%!06d", ETX, "%01<xor>";
+  wait $t_sleep;
+}
+
+setProtectCurrent
+{
+  @init{ getProtectCurrent; }
+  @mismatch{ handleError; }
+  out STX, 0x80, "614", $wr, "%d", ETX, "%01<xor>";
+  in  STX, 0x80, 0x06,             ETX, "%01<xor>";
+  wait $t_sleep;
+}
+
+getSetpointStatus
+{
+  MaxInput = 10;
+  out STX, 0x80, "804", $rd,         ETX, "%01<xor>";
+  in  STX, 0x80, "804", $rd, "%!1d", ETX, "%01<xor>";
+  wait $t_sleep;
+}
+
+getBaudRate
+{
+  MaxInput = 15;
+  out STX, 0x80, "108", $rd,          ETX, "%01<xor>";
+  in  STX, 0x80, "108", $rd, "%!06d", ETX, "%01<xor>";
+  wait $t_sleep;
+}
+
+getSerialNumber
+{
+  MaxInput = 19;
+  out STX, 0x80, "323", $rd,         ETX, "%01<xor>";
+  in  STX, 0x80, "323", $rd, "%10s", ETX, "%01<xor>";
+  wait $t_sleep;
+}
+
+getTempPower
+{
+  MaxInput = 15;
+  out STX, 0x80, "800", $rd,          ETX, "%01<xor>";
+  in  STX, 0x80, "800", $rd, "%!06d", ETX, "%01<xor>";
+  wait $t_sleep;
+}
+
+getTempController
+{
+  MaxInput = 15;
+  out STX, 0x80, "801", $rd,          ETX, "%01<xor>";
+  in  STX, 0x80, "801", $rd, "%!06d", ETX, "%01<xor>";
+  wait $t_sleep;
+}
+
+#charset is used to stop reading data after receiving ETX(0x03) or SOH(0x01)
+#regex is used to ignore one or two ETX and SOH characters
+getLabel
+{
+  out STX, 0x80, "890", $rd,                 ETX, "%01<xor>";
+  in  STX, 0x80, "890", $rd, "%[^\x03\x01]", "%*/(\x01|\x03)+/" "%01<xor>";
+  wait $t_sleep;
+}
+
+setLabel
+{
+  @init{ getLabel; }
+  @mismatch{ handleError; }
+  out STX, 0x80, "890", $wr, "%s", ETX, "%01<xor>";
+  in  STX, 0x80, 0x06,             ETX, "%01<xor>";
+  wait $t_sleep;
+}
+

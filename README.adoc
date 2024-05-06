@@ -1,0 +1,88 @@
+== Agilent-IPCMini
+
+* link:#agilent-ipcmini[Agilent-IPCMini]
+** link:#theory-of-operation[Theory of Operation]
+** link:#running-the-ioc[Running the IOC]
+** link:#device-instantiaton[Device Instantiaton]
+** link:#reply-mismatch[Reply Mismatch]
+** link:#troubleshooting[Troubleshooting]
+
+Collection of EPICS IOC and GUI components to drive the Agilent IPCMini
+vacuum pump controller.
+
+=== Theory of Operation
+
+Communication with the device is achieved over the streamdevice EPICS module.
+Each command supported by the device is mapped to a single `protocol`. The
+protocols include mismatch handling, and setting a time between each execution
+of protocols, by setting `t_pause` variable to a non zero value in the
+`ipc.proto` file. 
+
+=== Running the IOC
+
+The IOC can be run by executing the following commands in a shell:
+
+....
+$ cd {top}/iocboot/iocipcmini
+$ ./st.cmd
+....
+
+where `{top}` is the root folder of the EPICS IOC implementation.
+
+=== Device Instantiaton
+
+The IOC installs support for Agilent IPCMini vacuum pump controller. The user can connect to multiple IPCMini controllers by creating multiple instances. This can be achieved by modifying the `st.cmd` file and adding the following snippet for each device the user wants to add:
+
+....
+## Create a IPCMini device instance
+epicsEnvSet("DEVICE", "TESTDEV")
+epicsEnvSet("PORT", "ipcmini1")
+epicsEnvSet("ADDR", "cs-star-moxa5630.cosylab.lan:4001")
+# Create asyn IP port for communication over TCP/IP
+drvAsynIPPortConfigure ("$(PORT)", "$(ADDR)")
+# Load record instances
+dbLoadRecords("db/asynRecord.db","P=$(DEVICE):, R=ASYNRECORD, PORT=$(PORT), ADDR=0, IMAX=100, OMAX=100")
+dbLoadRecords("db/ipc.template","DEVICE=$(DEVICE), PORT=$(PORT)")
+
+--- lines skipped for clarity
+iocInit
+....
+
+where:
+
+* `PORT` is a unique name of the asyn port that used by the
+database 
+* `ADDR` is the IP and port of the device 
+* `DEVICE` is the
+prefix of the database records
+
+=== Reply Mismatch
+
+In some special cases, when sending invalid commands to the device, it
+will reply with one of the non standard replies: `Unknown Window`,
+`Data Type Error`, `Out of Range`, `Win Disabled`. These cases are
+handled by implementing `@mismatch` handlers in the protocols that can
+receive them.
+
+When the mismatch error is caught, it is redirected into the
+`$(DEVICE):COMERR`.
+
+=== Longer initialization time
+
+The database is designed in a way that the all the _setpoints_ PVs are set to
+their _readback_ counterparts with the _@init_ handlers in the protocol files.
+This happens during the initialization phase of the IOC and can cause a longer
+initialization then expected. The speed of the communication layer (eg. 9600
+baud/s if on a serial line) also contributes to the initialization time of the
+setpoints.
+
+=== Troubleshooting
+
+It can happen (more often than not), that the device can be overloaded
+by messages from the IOC. In this case the developer/user can use the
+following methods to alleviate some of the load off of the device: 
+
+1. Increase the `t_pause` variable in `ipc.proto` file 
+  * `t_pause` corresponds to the sleep time between protocol execution 
+2. Change the stream device https://paulscherrerinstitute.github.io/StreamDevice/protocol.html#sysvar[system variables] 
+3. Increase the SCAN rate of non-critical records

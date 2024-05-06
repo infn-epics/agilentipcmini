@@ -1,0 +1,543 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<display typeId="org.csstudio.opibuilder.Display" version="1.0.0">
+  <actions hook="false" hook_all="false" />
+  <auto_scale_widgets>
+    <auto_scale_widgets>false</auto_scale_widgets>
+    <min_width>-1</min_width>
+    <min_height>-1</min_height>
+  </auto_scale_widgets>
+  <auto_zoom_to_fit_all>false</auto_zoom_to_fit_all>
+  <background_color>
+    <color red="240" green="240" blue="240" />
+  </background_color>
+  <boy_version>5.1.0</boy_version>
+  <foreground_color>
+    <color red="192" green="192" blue="192" />
+  </foreground_color>
+  <grid_space>6</grid_space>
+  <height>250</height>
+  <macros>
+    <include_parent_macros>true</include_parent_macros>
+  </macros>
+  <name>IPC Mini Vacuum Controller - $(DEVICE) - Control</name>
+  <rules />
+  <scripts />
+  <show_close_button>true</show_close_button>
+  <show_edit_range>true</show_edit_range>
+  <show_grid>true</show_grid>
+  <show_ruler>false</show_ruler>
+  <snap_to_geometry>true</snap_to_geometry>
+  <widget_type>Display</widget_type>
+  <width>800</width>
+  <wuid>-31e600ee:146fb8bde76:-796d</wuid>
+  <x>481</x>
+  <y>54</y>
+  <widget typeId="org.csstudio.opibuilder.widgets.Label" version="1.0.0">
+    <actions hook="false" hook_all="false" />
+    <auto_size>false</auto_size>
+    <background_color>
+      <color name="STAR Vacuum Title" red="202" green="223" blue="159" />
+    </background_color>
+    <border_color>
+      <color name="IO Border" red="215" green="215" blue="215" />
+    </border_color>
+    <border_style>0</border_style>
+    <border_width>1</border_width>
+    <enabled>false</enabled>
+    <font>
+      <opifont.name fontName="Noto Sans" height="18" style="1" pixels="false">STAR Header</opifont.name>
+    </font>
+    <foreground_color>
+      <color name="IO Label" red="0" green="0" blue="0" />
+    </foreground_color>
+    <height>45</height>
+    <horizontal_alignment>1</horizontal_alignment>
+    <name>Title Banner_3</name>
+    <rules />
+    <scale_options>
+      <width_scalable>false</width_scalable>
+      <height_scalable>false</height_scalable>
+      <keep_wh_ratio>false</keep_wh_ratio>
+    </scale_options>
+    <scripts />
+    <text>$(DEVICE) - Control</text>
+    <tooltip></tooltip>
+    <transparent>false</transparent>
+    <vertical_alignment>1</vertical_alignment>
+    <visible>true</visible>
+    <widget_type>Label</widget_type>
+    <width>800</width>
+    <wrap_words>false</wrap_words>
+    <wuid>65e7c6b9:14f73b21988:-7f19</wuid>
+    <x>0</x>
+    <y>0</y>
+  </widget>
+  <widget typeId="org.csstudio.opibuilder.widgets.linkingContainer" version="1.0.0">
+    <actions hook="false" hook_all="false" />
+    <background_color>
+      <color red="240" green="240" blue="240" />
+    </background_color>
+    <border_color>
+      <color red="0" green="128" blue="255" />
+    </border_color>
+    <border_style>0</border_style>
+    <border_width>1</border_width>
+    <enabled>true</enabled>
+    <font>
+      <opifont.name fontName="Fira Sans" height="10" style="0" pixels="false">Default</opifont.name>
+    </font>
+    <foreground_color>
+      <color red="192" green="192" blue="192" />
+    </foreground_color>
+    <group_name></group_name>
+    <height>34</height>
+    <macros>
+      <include_parent_macros>true</include_parent_macros>
+      <LABEL>Baud Rate</LABEL>
+      <PV_RB>$(DEVICE):BAUDRATE_RB</PV_RB>
+    </macros>
+    <name>Linking Container_3</name>
+    <opi_file>../../gui-lib/opi/widget-library/readback.opi</opi_file>
+    <resize_behaviour>1</resize_behaviour>
+    <rules />
+    <scale_options>
+      <width_scalable>true</width_scalable>
+      <height_scalable>true</height_scalable>
+      <keep_wh_ratio>false</keep_wh_ratio>
+    </scale_options>
+    <scripts />
+    <tooltip></tooltip>
+    <visible>true</visible>
+    <widget_type>Linking Container</widget_type>
+    <width>400</width>
+    <wuid>-51c379ab:1866ea5ac58:-6c8c</wuid>
+    <x>399</x>
+    <y>77</y>
+  </widget>
+  <widget typeId="org.csstudio.opibuilder.widgets.linkingContainer" version="1.0.0">
+    <actions hook="false" hook_all="false" />
+    <background_color>
+      <color red="240" green="240" blue="240" />
+    </background_color>
+    <border_color>
+      <color red="0" green="128" blue="255" />
+    </border_color>
+    <border_style>0</border_style>
+    <border_width>1</border_width>
+    <enabled>true</enabled>
+    <font>
+      <opifont.name fontName="Fira Sans" height="10" style="0" pixels="false">Default</opifont.name>
+    </font>
+    <foreground_color>
+      <color red="192" green="192" blue="192" />
+    </foreground_color>
+    <group_name></group_name>
+    <height>34</height>
+    <macros>
+      <include_parent_macros>true</include_parent_macros>
+      <LABEL>Model</LABEL>
+      <PV_RB>$(DEVICE):MODEL_RB</PV_RB>
+    </macros>
+    <name>Linking Container_8</name>
+    <opi_file>../../gui-lib/opi/widget-library/readback_big.opi</opi_file>
+    <resize_behaviour>1</resize_behaviour>
+    <rules />
+    <scale_options>
+      <width_scalable>true</width_scalable>
+      <height_scalable>true</height_scalable>
+      <keep_wh_ratio>false</keep_wh_ratio>
+    </scale_options>
+    <scripts />
+    <tooltip></tooltip>
+    <visible>true</visible>
+    <widget_type>Linking Container</widget_type>
+    <width>400</width>
+    <wuid>-51c379ab:1866ea5ac58:-6c85</wuid>
+    <x>0</x>
+    <y>209</y>
+  </widget>
+  <widget typeId="org.csstudio.opibuilder.widgets.linkingContainer" version="1.0.0">
+    <actions hook="false" hook_all="false" />
+    <background_color>
+      <color red="240" green="240" blue="240" />
+    </background_color>
+    <border_color>
+      <color red="0" green="128" blue="255" />
+    </border_color>
+    <border_style>0</border_style>
+    <border_width>1</border_width>
+    <enabled>true</enabled>
+    <font>
+      <opifont.name fontName="Fira Sans" height="10" style="0" pixels="false">Default</opifont.name>
+    </font>
+    <foreground_color>
+      <color red="192" green="192" blue="192" />
+    </foreground_color>
+    <group_name></group_name>
+    <height>34</height>
+    <macros>
+      <include_parent_macros>true</include_parent_macros>
+      <LABEL>Serial Number</LABEL>
+      <PV_RB>$(DEVICE):SERNUM_RB</PV_RB>
+    </macros>
+    <name>Linking Container_9</name>
+    <opi_file>../../gui-lib/opi/widget-library/readback.opi</opi_file>
+    <resize_behaviour>1</resize_behaviour>
+    <rules />
+    <scale_options>
+      <width_scalable>true</width_scalable>
+      <height_scalable>true</height_scalable>
+      <keep_wh_ratio>false</keep_wh_ratio>
+    </scale_options>
+    <scripts />
+    <tooltip></tooltip>
+    <visible>true</visible>
+    <widget_type>Linking Container</widget_type>
+    <width>400</width>
+    <wuid>-51c379ab:1866ea5ac58:-6c7e</wuid>
+    <x>399</x>
+    <y>44</y>
+  </widget>
+  <widget typeId="org.csstudio.opibuilder.widgets.linkingContainer" version="1.0.0">
+    <actions hook="false" hook_all="false" />
+    <background_color>
+      <color red="240" green="240" blue="240" />
+    </background_color>
+    <border_color>
+      <color red="0" green="128" blue="255" />
+    </border_color>
+    <border_style>0</border_style>
+    <border_width>1</border_width>
+    <enabled>true</enabled>
+    <font>
+      <opifont.name fontName="Fira Sans" height="10" style="0" pixels="false">Default</opifont.name>
+    </font>
+    <foreground_color>
+      <color red="192" green="192" blue="192" />
+    </foreground_color>
+    <group_name></group_name>
+    <height>34</height>
+    <macros>
+      <include_parent_macros>true</include_parent_macros>
+      <LABEL>Unit</LABEL>
+      <PV_RB>$(DEVICE):UNIT_RB</PV_RB>
+      <PV_SP>$(DEVICE):UNIT_SP</PV_SP>
+    </macros>
+    <name>Linking Container_11</name>
+    <opi_file>../../gui-lib/opi/widget-library/readback_menu.opi</opi_file>
+    <resize_behaviour>1</resize_behaviour>
+    <rules />
+    <scale_options>
+      <width_scalable>true</width_scalable>
+      <height_scalable>true</height_scalable>
+      <keep_wh_ratio>false</keep_wh_ratio>
+    </scale_options>
+    <scripts />
+    <tooltip></tooltip>
+    <visible>true</visible>
+    <widget_type>Linking Container</widget_type>
+    <width>400</width>
+    <wuid>-51c379ab:1866ea5ac58:-6c77</wuid>
+    <x>0</x>
+    <y>44</y>
+  </widget>
+  <widget typeId="org.csstudio.opibuilder.widgets.linkingContainer" version="1.0.0">
+    <actions hook="false" hook_all="false" />
+    <background_color>
+      <color red="240" green="240" blue="240" />
+    </background_color>
+    <border_color>
+      <color red="0" green="128" blue="255" />
+    </border_color>
+    <border_style>0</border_style>
+    <border_width>1</border_width>
+    <enabled>true</enabled>
+    <font>
+      <opifont.name fontName="Fira Sans" height="10" style="0" pixels="false">Default</opifont.name>
+    </font>
+    <foreground_color>
+      <color red="192" green="192" blue="192" />
+    </foreground_color>
+    <group_name></group_name>
+    <height>34</height>
+    <macros>
+      <include_parent_macros>true</include_parent_macros>
+      <LABEL>Autostart</LABEL>
+      <PV_RB>$(DEVICE):AUTOSTART_RB</PV_RB>
+      <PV_SP>$(DEVICE):AUTOSTART_SP</PV_SP>
+    </macros>
+    <name>Linking Container_15</name>
+    <opi_file>../../gui-lib/opi/widget-library/readback_menu.opi</opi_file>
+    <resize_behaviour>1</resize_behaviour>
+    <rules />
+    <scale_options>
+      <width_scalable>true</width_scalable>
+      <height_scalable>true</height_scalable>
+      <keep_wh_ratio>false</keep_wh_ratio>
+    </scale_options>
+    <scripts />
+    <tooltip></tooltip>
+    <visible>true</visible>
+    <widget_type>Linking Container</widget_type>
+    <width>400</width>
+    <wuid>-51c379ab:1866ea5ac58:-6c6e</wuid>
+    <x>0</x>
+    <y>77</y>
+  </widget>
+  <widget typeId="org.csstudio.opibuilder.widgets.linkingContainer" version="1.0.0">
+    <actions hook="false" hook_all="false" />
+    <background_color>
+      <color red="240" green="240" blue="240" />
+    </background_color>
+    <border_color>
+      <color red="0" green="128" blue="255" />
+    </border_color>
+    <border_style>0</border_style>
+    <border_width>1</border_width>
+    <enabled>true</enabled>
+    <font>
+      <opifont.name fontName="Fira Sans" height="10" style="0" pixels="false">Default</opifont.name>
+    </font>
+    <foreground_color>
+      <color red="192" green="192" blue="192" />
+    </foreground_color>
+    <group_name></group_name>
+    <height>34</height>
+    <macros>
+      <include_parent_macros>true</include_parent_macros>
+      <LABEL>Prot status</LABEL>
+      <PV_RB>$(DEVICE):PROTSTS_RB</PV_RB>
+      <PV_SP>$(DEVICE):PROTSTS_SP</PV_SP>
+    </macros>
+    <name>Linking Container_16</name>
+    <opi_file>../../gui-lib/opi/widget-library/readback_menu.opi</opi_file>
+    <resize_behaviour>1</resize_behaviour>
+    <rules />
+    <scale_options>
+      <width_scalable>true</width_scalable>
+      <height_scalable>true</height_scalable>
+      <keep_wh_ratio>false</keep_wh_ratio>
+    </scale_options>
+    <scripts />
+    <tooltip></tooltip>
+    <visible>true</visible>
+    <widget_type>Linking Container</widget_type>
+    <width>400</width>
+    <wuid>-51c379ab:1866ea5ac58:-6c65</wuid>
+    <x>0</x>
+    <y>110</y>
+  </widget>
+  <widget typeId="org.csstudio.opibuilder.widgets.linkingContainer" version="1.0.0">
+    <actions hook="false" hook_all="false" />
+    <background_color>
+      <color red="240" green="240" blue="240" />
+    </background_color>
+    <border_color>
+      <color red="0" green="128" blue="255" />
+    </border_color>
+    <border_style>0</border_style>
+    <border_width>1</border_width>
+    <enabled>true</enabled>
+    <font>
+      <opifont.name fontName="Fira Sans" height="10" style="0" pixels="false">Default</opifont.name>
+    </font>
+    <foreground_color>
+      <color red="192" green="192" blue="192" />
+    </foreground_color>
+    <group_name></group_name>
+    <height>34</height>
+    <macros>
+      <include_parent_macros>true</include_parent_macros>
+      <LABEL>Fixed/Step</LABEL>
+      <PV_RB>$(DEVICE):FIXEDSTEP_RB</PV_RB>
+      <PV_SP>$(DEVICE):FIXEDSTEP_SP</PV_SP>
+    </macros>
+    <name>Linking Container_17</name>
+    <opi_file>../../gui-lib/opi/widget-library/readback_menu.opi</opi_file>
+    <resize_behaviour>1</resize_behaviour>
+    <rules />
+    <scale_options>
+      <width_scalable>true</width_scalable>
+      <height_scalable>true</height_scalable>
+      <keep_wh_ratio>false</keep_wh_ratio>
+    </scale_options>
+    <scripts />
+    <tooltip></tooltip>
+    <visible>true</visible>
+    <widget_type>Linking Container</widget_type>
+    <width>400</width>
+    <wuid>-51c379ab:1866ea5ac58:-6c5c</wuid>
+    <x>0</x>
+    <y>143</y>
+  </widget>
+  <widget typeId="org.csstudio.opibuilder.widgets.linkingContainer" version="1.0.0">
+    <actions hook="false" hook_all="false" />
+    <background_color>
+      <color red="240" green="240" blue="240" />
+    </background_color>
+    <border_color>
+      <color red="0" green="128" blue="255" />
+    </border_color>
+    <border_style>0</border_style>
+    <border_width>1</border_width>
+    <enabled>true</enabled>
+    <font>
+      <opifont.name fontName="Fira Sans" height="10" style="0" pixels="false">Default</opifont.name>
+    </font>
+    <foreground_color>
+      <color red="192" green="192" blue="192" />
+    </foreground_color>
+    <group_name></group_name>
+    <height>34</height>
+    <macros>
+      <include_parent_macros>true</include_parent_macros>
+      <LABEL>Label</LABEL>
+      <PV_RB>$(DEVICE):LABEL_RB</PV_RB>
+      <PV_SP>$(DEVICE):LABEL_SP</PV_SP>
+    </macros>
+    <name>Linking Container_27</name>
+    <opi_file>../../gui-lib/opi/widget-library/readback_setpoint.opi</opi_file>
+    <resize_behaviour>1</resize_behaviour>
+    <rules />
+    <scale_options>
+      <width_scalable>true</width_scalable>
+      <height_scalable>true</height_scalable>
+      <keep_wh_ratio>false</keep_wh_ratio>
+    </scale_options>
+    <scripts />
+    <tooltip></tooltip>
+    <visible>true</visible>
+    <widget_type>Linking Container</widget_type>
+    <width>400</width>
+    <wuid>-51c379ab:1866ea5ac58:-6c53</wuid>
+    <x>0</x>
+    <y>176</y>
+  </widget>
+  <widget typeId="org.csstudio.opibuilder.widgets.linkingContainer" version="1.0.0">
+    <actions hook="false" hook_all="false" />
+    <background_color>
+      <color red="240" green="240" blue="240" />
+    </background_color>
+    <border_color>
+      <color red="0" green="128" blue="255" />
+    </border_color>
+    <border_style>0</border_style>
+    <border_width>1</border_width>
+    <enabled>true</enabled>
+    <font>
+      <opifont.name fontName="Fira Sans" height="10" style="0" pixels="false">Default</opifont.name>
+    </font>
+    <foreground_color>
+      <color red="192" green="192" blue="192" />
+    </foreground_color>
+    <group_name></group_name>
+    <height>34</height>
+    <macros>
+      <include_parent_macros>true</include_parent_macros>
+      <LABEL>ComError</LABEL>
+      <PV_RB>$(DEVICE):COMERR</PV_RB>
+    </macros>
+    <name>Linking Container_28</name>
+    <opi_file>../../gui-lib/opi/widget-library/readback_big.opi</opi_file>
+    <resize_behaviour>1</resize_behaviour>
+    <rules />
+    <scale_options>
+      <width_scalable>true</width_scalable>
+      <height_scalable>true</height_scalable>
+      <keep_wh_ratio>false</keep_wh_ratio>
+    </scale_options>
+    <scripts />
+    <tooltip></tooltip>
+    <visible>true</visible>
+    <widget_type>Linking Container</widget_type>
+    <width>400</width>
+    <wuid>-51c379ab:1866ea5ac58:-6ae3</wuid>
+    <x>399</x>
+    <y>110</y>
+  </widget>
+  <widget typeId="org.csstudio.opibuilder.widgets.linkingContainer" version="1.0.0">
+    <actions hook="false" hook_all="false" />
+    <background_color>
+      <color red="240" green="240" blue="240" />
+    </background_color>
+    <border_color>
+      <color red="0" green="128" blue="255" />
+    </border_color>
+    <border_style>0</border_style>
+    <border_width>1</border_width>
+    <enabled>true</enabled>
+    <font>
+      <opifont.name fontName="Fira Sans" height="10" style="0" pixels="false">Default</opifont.name>
+    </font>
+    <foreground_color>
+      <color red="192" green="192" blue="192" />
+    </foreground_color>
+    <group_name></group_name>
+    <height>34</height>
+    <macros>
+      <include_parent_macros>true</include_parent_macros>
+      <LABEL>Mode</LABEL>
+      <PV_RB>$(DEVICE):MODE_RB</PV_RB>
+      <PV_SP>$(DEVICE):MODE_SP</PV_SP>
+    </macros>
+    <name>Linking Container_29</name>
+    <opi_file>../../gui-lib/opi/widget-library/readback_menu.opi</opi_file>
+    <resize_behaviour>1</resize_behaviour>
+    <rules />
+    <scale_options>
+      <width_scalable>true</width_scalable>
+      <height_scalable>true</height_scalable>
+      <keep_wh_ratio>false</keep_wh_ratio>
+    </scale_options>
+    <scripts />
+    <tooltip></tooltip>
+    <visible>true</visible>
+    <widget_type>Linking Container</widget_type>
+    <width>400</width>
+    <wuid>-51c379ab:1866ea5ac58:-6adc</wuid>
+    <x>399</x>
+    <y>143</y>
+  </widget>
+  <widget typeId="org.csstudio.opibuilder.widgets.linkingContainer" version="1.0.0">
+    <actions hook="false" hook_all="false" />
+    <background_color>
+      <color red="240" green="240" blue="240" />
+    </background_color>
+    <border_color>
+      <color red="0" green="128" blue="255" />
+    </border_color>
+    <border_style>0</border_style>
+    <border_width>1</border_width>
+    <enabled>true</enabled>
+    <font>
+      <opifont.name fontName="Fira Sans" height="10" style="0" pixels="false">Default</opifont.name>
+    </font>
+    <foreground_color>
+      <color red="192" green="192" blue="192" />
+    </foreground_color>
+    <group_name></group_name>
+    <height>34</height>
+    <macros>
+      <include_parent_macros>true</include_parent_macros>
+      <LABEL>ComError</LABEL>
+      <PV_RST>$(DEVICE):COMERR</PV_RST>
+    </macros>
+    <name>Linking Container_31</name>
+    <opi_file>widgets/comErrorRst.opi</opi_file>
+    <resize_behaviour>1</resize_behaviour>
+    <rules />
+    <scale_options>
+      <width_scalable>true</width_scalable>
+      <height_scalable>true</height_scalable>
+      <keep_wh_ratio>false</keep_wh_ratio>
+    </scale_options>
+    <scripts />
+    <tooltip></tooltip>
+    <visible>true</visible>
+    <widget_type>Linking Container</widget_type>
+    <width>400</width>
+    <wuid>-51c379ab:1866ea5ac58:-6ad3</wuid>
+    <x>399</x>
+    <y>176</y>
+  </widget>
+</display>

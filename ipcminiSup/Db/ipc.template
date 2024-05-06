@@ -1,0 +1,507 @@
+# ipcmini.template
+# Template database for the IPCMini Pump Controller 
+#
+# substitutions:
+# DEVICE  - device name
+# PORT    - streamdevice asyn port
+
+record(bi, "$(DEVICE):STATUS_RB")
+{
+  field(DESC, "Controller Status HV ON/OFF Readback")
+  field(DTYP, "stream")
+  field(INP,  "@ipc.proto getEnableCH $(PORT)")
+  field(PINI, "YES")
+  field(SCAN, "2 second")
+  field(ZNAM, "OFF")
+  field(ONAM, "ON")
+}
+
+record(bo, "$(DEVICE):STATUS_SP")
+{
+  field(DESC, "Controller Status HV ON/OFF Setpoint")
+  field(DTYP, "stream")
+  field(OUT,  "@ipc.proto setEnableCH($(DEVICE):COMERR) $(PORT)")
+  field(PINI, "NO")
+  field(ZNAM, "OFF")
+  field(ONAM, "ON")
+}
+
+record(mbbi, "$(DEVICE):STAT_RB")
+{
+  field(DESC, "Controller Status Readback")
+  field(DTYP, "stream")
+  field(INP,  "@ipc.proto getStatus $(PORT)")
+  field(PINI, "YES")
+  field(SCAN, "2 second")
+  field(ZRVL, "0")
+  field(ZRST, "OK")
+  field(ZRSV, "NO_ALARM")
+  field(FVVL, "5")
+  field(FVST, "OK")
+  field(FVSV, "NO_ALARM")
+  field(ONVL, "6")
+  field(ONST, "Fail")
+  field(ONSV, "MAJOR")
+}
+
+record(mbbi, "$(DEVICE):MODE_RB")
+{
+  field(DESC, "Controller Mode Readback")
+  field(DTYP, "stream")
+  field(INP,  "@ipc.proto getMode $(PORT)")
+  field(PINI, "YES")
+  field(SCAN, "5 second")
+  field(ZRVL, "0")
+  field(ZRST, "Serial")
+  field(ZRSV, "NO_ALARM")
+  field(ONVL, "1")
+  field(ONST, "Remote") 
+  field(ONSV, "NO_ALARM")
+  field(TWVL, "2")
+  field(TWST, "Local") 
+  field(TWSV, "MINOR")
+  field(THVL, "3")
+  field(THST, "LAN") 
+  field(THSV, "NO_ALARM")
+}
+
+record(mbbo, "$(DEVICE):MODE_SP")
+{
+  field(DESC, "Controller Mode Readback")
+  field(DTYP, "stream")
+  field(OUT,  "@ipc.proto setMode($(DEVICE):COMERR) $(PORT)")
+  field(PINI, "YES")
+  field(ZRVL, "0")
+  field(ZRST, "Serial")
+  field(ZRSV, "NO_ALARM")
+  field(ONVL, "1")
+  field(ONST, "Remote") 
+  field(ONSV, "NO_ALARM")
+  field(TWVL, "2")
+  field(TWST, "Local") 
+  field(TWSV, "MINOR")
+  field(THVL, "3")
+  field(THST, "LAN") 
+  field(THSV, "NO_ALARM")
+}
+
+record(calc, "$(DEVICE):ERROR_CALC_") {
+  field(DESC, "Convert error code to binary value")
+  field(INPA, "$(DEVICE):ERRCODE_RB CP")
+  field(CALC, "A > 0")
+  field(FLNK, "$(DEVICE):ERROR_RB PP")
+}
+
+record(bi, "$(DEVICE):ERROR_RB") {
+  field(INP, "$(DEVICE):ERROR_CALC_")
+  field(ZNAM, "OK")
+  field(ONAM, "Error")
+}
+
+record(mbbiDirect, "$(DEVICE):ERRCODE_RB")
+{
+  field(DESC, "Controller Error Code Readback")
+  field(DTYP, "stream")
+  field(INP,  "@ipc.proto getErrorCode $(PORT)")
+  field(PINI, "YES")
+  field(SCAN, "1 second")
+  field(NOBT, "13")
+  field(SHFT, "0")
+}
+
+record(bi, "$(DEVICE):ERRTEMP_RB")
+{
+  field(DESC, "Over Temperature Error Readback")
+  field(PINI, "YES")
+  field(INP,  "$(DEVICE):ERRCODE_RB.B2 CP")
+  field(ZNAM, "OFF")
+  field(ZSV,  "NO_ALARM")
+  field(ONAM, "ON")
+  field(OSV,  "MAJOR")
+}
+
+record(bi, "$(DEVICE):ERRINTER_RB")
+{
+  field(DESC, "Interlock Error Readback")
+  field(PINI, "YES")
+  field(INP,  "$(DEVICE):ERRCODE_RB.B5 CP")
+  field(ZNAM, "OFF")
+  field(ZSV,  "NO_ALARM")
+  field(ONAM, "ON")
+  field(OSV,  "MAJOR")
+}
+
+record(bi, "$(DEVICE):ERRSHCIRCUIT_RB")
+{
+  field(DESC, "Short Circuit Error Readback")
+  field(PINI, "YES")
+  field(INP,  "$(DEVICE):ERRCODE_RB.B6 CP")
+  field(ZNAM, "OFF")
+  field(ZSV,  "NO_ALARM")
+  field(ONAM, "ON")
+  field(OSV,  "MAJOR")
+}
+
+record(bi, "$(DEVICE):ERRPROTECT_RB")
+{
+  field(DESC, "Protect Error Readback")
+  field(PINI, "YES")
+  field(INP,  "$(DEVICE):ERRCODE_RB.B7 CP")
+  field(ZNAM, "OFF")
+  field(ZSV,  "NO_ALARM")
+  field(ONAM, "ON")
+  field(OSV,  "MAJOR")
+}
+
+record(stringin, "$(DEVICE):MODEL_RB")
+{
+  field(DESC, "Device Model Readback")
+  field(DTYP, "stream")
+  field(INP,  "@ipc.proto getModel $(PORT)")
+  field(PINI, "YES")
+  field(SCAN, "1 second")
+}
+
+record(ai, "$(DEVICE):MAXPWR_RB")
+{
+  field(DESC, "Power Max Readback")
+  field(DTYP, "stream")
+  field(INP,  "@ipc.proto getMaxPower $(PORT)")
+  field(PINI, "YES")
+  field(SCAN, "1 second")
+  field(EGU,  "W")
+}
+
+record(ao, "$(DEVICE):MAXPWR_SP")
+{
+  field(DESC, "Power Max Readback")
+  field(DTYP, "stream")
+  field(OUT,  "@ipc.proto setMaxPower($(DEVICE):COMERR) $(PORT)")
+  field(PINI, "NO")
+  field(EGU,  "W")
+  field(DRVH, "40")
+  field(DRVL, "10")
+}
+
+record(ai, "$(DEVICE):PRES_RB")
+{
+  field(DESC, "Pressure Readback")
+  field(DTYP, "stream")
+  field(INP,  "@ipc.proto getPressure $(PORT)")
+  field(PINI, "YES")
+  field(SCAN, "1 second")
+  field(EGU,  "mBar")
+  field(PREC, "2")
+}
+
+record(ai, "$(DEVICE):CURR_RB")
+{
+  alias("$(DEVICE):CURRENT_RB")
+  field(DESC, "Current Readback")
+  field(DTYP, "stream")
+  field(INP,  "@ipc.proto getCurrent $(PORT)")
+  field(PINI, "YES")
+  field(SCAN, "1 second")
+  field(EGU,  "A")
+  field(PREC, "2")
+}
+
+record(ai, "$(DEVICE):VOLT_RB")
+{
+  alias("$(DEVICE):VOLTAGE_RB")
+  field(DESC, "Voltage Readback")
+  field(DTYP, "stream")
+  field(INP,  "@ipc.proto getVoltage $(PORT)")
+  field(PINI, "YES")
+  field(SCAN, "1 second")
+  field(EGU,  "V")
+}
+
+record(bi, "$(DEVICE):AUTOSTART_RB")
+{
+  field(DESC, "Protect Status Readback")
+  field(DTYP, "stream")
+  field(INP,  "@ipc.proto getAutostart $(PORT)")
+  field(PINI, "YES")
+  field(SCAN, "1 second")
+  field(ZNAM, "Disabled")
+  field(ONAM, "Enabled")
+}
+
+record(bo, "$(DEVICE):AUTOSTART_SP")
+{
+  field(DESC, "Protect Status Setpoint")
+  field(DTYP, "stream")
+  field(OUT,  "@ipc.proto setAutostart($(DEVICE):COMERR) $(PORT)")
+  field(ZNAM, "Disable")
+  field(ONAM, "Enable")
+  field(PINI, "NO")
+}
+
+record(bi, "$(DEVICE):PROTSTS_RB")
+{
+  field(DESC, "Protect Status Setpoint")
+  field(DTYP, "stream")
+  field(INP,  "@ipc.proto getProtectStatus $(PORT)")
+  field(PINI, "YES")
+  field(SCAN, "1 second")
+  field(ZNAM, "Disabled")
+  field(ONAM, "Enabled")
+}
+
+record(bo, "$(DEVICE):PROTSTS_SP")
+{
+  field(DESC, "Protect Status Setpoint")
+  field(DTYP, "stream")
+  field(OUT,  "@ipc.proto setProtectStatus($(DEVICE):COMERR) $(PORT)")
+  field(PINI, "NO")
+  field(ZNAM, "Disable")
+  field(ONAM, "Enable")
+}
+
+record(bi, "$(DEVICE):FIXEDSTEP_RB")
+{
+  field(DESC, "Protect Status Readback")
+  field(DTYP, "stream")
+  field(INP,  "@ipc.proto getFixedStep $(PORT)")
+  field(PINI, "YES")
+  field(SCAN, "1 second")
+  field(ZNAM, "Disabled")
+  field(ONAM, "Enabled")
+}
+
+record(bo, "$(DEVICE):FIXEDSTEP_SP")
+{
+  field(DESC, "Protect Status Setpoint")
+  field(DTYP, "stream")
+  field(OUT,  "@ipc.proto setFixedStep($(DEVICE):COMERR) $(PORT)")
+  field(ZNAM, "Disable")
+  field(ONAM, "Enable")
+  field(PINI, "NO")
+}
+
+record(ai, "$(DEVICE):DEVNUM_RB")
+{
+  field(DESC, "Device Number Readback")
+  field(DTYP, "stream")
+  field(INP,  "@ipc.proto getDeviceNumberCH $(PORT)")
+  field(PINI, "YES")
+  field(SCAN, "10 second")
+  field(FLNK, "$(DEVICE):DEVNUMPROC")
+}
+
+record(aSub, "$(DEVICE):DEVNUMPROC"){
+    field(DESC, "Device number (string)")
+    field(SNAM, "processDeviceNumber")
+    field(INPA, "$(DEVICE):DEVNUM_RB")
+    field(FTA, "LONG")
+    field(NOA,  "1")
+    field(OUTA, "$(DEVICE):DEVNUMSTR_RB PP")
+    field(FTVA, "STRING")
+    field(NOVA, "1")
+}
+
+record(stringin, "$(DEVICE):DEVNUMSTR_RB"){
+    field(DESC, "Device Number String - Readback")
+    field(SCAN, "Passive")
+}
+
+record(ai, "$(DEVICE):STPT_RB")
+{
+  field(DESC, "Setpoint Readback")
+  field(DTYP, "stream")
+  field(INP,  "@ipc.proto getSetpoint $(PORT)")
+  field(PINI, "YES")
+  field(SCAN, "1 second")
+  field(PREC, "2")
+}
+
+record(ao, "$(DEVICE):STPT_SP")
+{
+  field(DESC, "Setpoint")
+  field(DTYP, "stream")
+  field(OUT,  "@ipc.proto setSetpoint($(DEVICE):COMERR) $(PORT)")
+  field(PINI, "NO")
+  field(PREC, "2")
+}
+
+record(ai, "$(DEVICE):VOLTTGT_RB")
+{
+  field(DESC, "Voltage Readback")
+  field(DTYP, "stream")
+  field(INP,  "@ipc.proto getVoltageSP $(PORT)")
+  field(PINI, "YES")
+  field(SCAN, "1 second")
+  field(EGU,  "V")
+}
+
+record(ao, "$(DEVICE):VOLTTGT_SP")
+{
+  field(DESC, "Voltage Target Setpoint")
+  field(DTYP, "stream")
+  field(OUT,  "@ipc.proto setVoltageSP($(DEVICE):COMERR) $(PORT)")
+  field(PINI, "NO")
+  field(EGU,  "V")
+}
+
+record(ai, "$(DEVICE):PROTCURR_RB")
+{
+  field(DESC, "Protect Current Readback")
+  field(DTYP, "stream")
+  field(INP,  "@ipc.proto getProtectCurrent $(PORT)")
+  field(PINI, "YES")
+  field(SCAN, "1 second")
+  field(EGU,  "uA")
+}
+
+record(ao, "$(DEVICE):PROTCURR_SP")
+{
+  field(DESC, "Protect Current Setpoint")
+  field(DTYP, "stream")
+  field(OUT,  "@ipc.proto setProtectCurrent($(DEVICE):COMERR) $(PORT)")
+  field(PINI, "NO")
+  field(EGU,  "uA")
+}
+
+record(bi, "$(DEVICE):STPTSTAT_RB")
+{
+  field(DESC, "Setpoint Status")
+  field(DTYP, "stream")
+  field(INP,  "@ipc.proto getSetpointStatus $(PORT)")
+  field(PINI, "YES")
+  field(SCAN, "1 second")
+  field(ZNAM, "OFF")
+  field(ONAM, "ON")
+}
+
+record(ai, "$(DEVICE):TEMPPWR_RB")
+{
+  field(DESC, "Power Section Temperature Readback")
+  field(DTYP, "stream")
+  field(INP,  "@ipc.proto getTempPower $(PORT)")
+  field(PREC, "1")
+  field(PINI, "YES")
+  field(ASLO, "0.1")
+  field(SCAN, "10 second")
+  field(EGU,  "degC")
+}
+
+record(ai, "$(DEVICE):TEMPCONTR_RB")
+{
+  field(DESC, "Internal Controller Temperature")
+  field(DTYP, "stream")
+  field(INP,  "@ipc.proto getTempController $(PORT)")
+  field(PREC, "1")
+  field(PINI, "YES")
+  field(ASLO, "0.1")
+  field(SCAN, "10 second")
+  field(EGU,  "degC")
+}
+
+record(mbbi, "$(DEVICE):UNIT_RB")
+{
+  field(DESC, "Unit Readback")
+  field(DTYP, "stream")
+  field(INP,  "@ipc.proto getUnit $(PORT)")
+  field(PINI, "YES")
+  field(SCAN, "5 second")
+  field(ZRVL, "0")
+  field(ZRST, "Torr")
+  field(ONVL, "1")
+  field(ONST, "mBar") 
+  field(TWVL, "2")
+  field(TWST, "Pa") 
+}
+
+record(mbbo, "$(DEVICE):UNIT_SP")
+{
+  field(DESC, "Unit Setpoint")
+  field(DTYP, "stream")
+  field(OUT,  "@ipc.proto setUnit($(DEVICE):COMERR) $(PORT)")
+  field(PINI, "YES")
+  field(SCAN, "Passive")
+  field(ZRVL, "0")
+  field(ZRST, "Torr")
+  field(ONVL, "1")
+  field(ONST, "mBar") 
+  field(TWVL, "2")
+  field(TWST, "Pa") 
+}
+
+record(stringout, "$(DEVICE):UNIT_FW0")
+{
+  field(DESC, "Unit Forward")
+  field(OMSL, "closed_loop")
+  field(PINI, "YES")
+  field(DOL, "$(DEVICE):UNIT_RB.VAL CP")
+  field(OUT, "$(DEVICE):PRES_RB.EGU")
+}
+
+record(mbbi, "$(DEVICE):BAUDRATE_RB")
+{
+  field(DESC, "Baud Rate Readback")
+  field(DTYP, "stream")
+  field(INP,  "@ipc.proto getBaudRate $(PORT)")
+  field(PINI, "YES")
+  field(SCAN, "1 second")
+  field(ZRVL, "1")
+  field(ZRST, "1200")
+  field(ONVL, "2")
+  field(ONST, "2400") 
+  field(TWVL, "3")
+  field(TWST, "4800") 
+  field(THVL, "4")
+  field(THST, "9600") 
+}
+
+record(stringin, "$(DEVICE):SERNUM_RB")
+{
+  field(DESC, "Serial Number Readback")
+  field(DTYP, "stream")
+  field(INP,  "@ipc.proto getSerialNumber $(PORT)")
+  field(PINI, "YES")
+  field(SCAN, "Passive")
+}
+
+record(stringin, "$(DEVICE):LABEL_IN")
+{
+  field(DESC, "Lable Readback")
+  field(DTYP, "stream")
+  field(INP,  "@ipc.proto getLabel $(PORT)")
+  field(PINI, "YES")
+  field(SCAN, "1 second")
+  field(FLNK, "$(DEVICE):LABEL_RB")
+}
+
+record(printf, "$(DEVICE):LABEL_RB")
+{
+  field(DESC, "Lable Readback")
+  field(INP0,  "$(DEVICE):LABEL_IN")
+  field(FMT, "%.10s")
+}
+
+record(stringout, "$(DEVICE):LABEL_SP")
+{
+  field(DESC, "Label Setpoint")
+  field(DTYP, "stream")
+  field(OUT,  "@ipc.proto setLabel($(DEVICE):COMERR) $(PORT)")
+  field(SCAN, "Passive")
+}
+
+record(mbbi, "$(DEVICE):COMERR")
+{
+  field(DESC, "Communication error")
+  field(SCAN, "Passive")
+  field(VAL,  "0")
+  field(ZRVL, "0")
+  field(ZRST, "Initial state")
+  field(TWVL, "2")
+  field(TWST, "Unknown window")
+  field(THVL, "3")
+  field(THST, "Data Type Error") 
+  field(FRVL, "4")
+  field(FRST, "Out of Range") 
+  field(FVVL, "5")
+  field(FVST, "Win Disabled") 
+}
+
