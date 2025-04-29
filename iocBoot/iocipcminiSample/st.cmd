@@ -18,13 +18,14 @@ ipcminiSample_registerRecordDeviceDriver pdbbase
 ### Create a IPCMini device instance
 epicsEnvSet("DEVICE", "PSIOPDGL02")
 epicsEnvSet("PORT", "ipcmini1")
-epicsEnvSet("ADDR", "psiopdgl02.star.unical.it:23")
+epicsEnvSet("IP", "192.168.197.105:4002")
 ## Create asyn IP port for communication over TCP/IP
-drvAsynIPPortConfigure ("$(PORT)", "$(ADDR)")
+drvAsynIPPortConfigure ("$(PORT)", "$(IP)")
 ## Load record instances
-dbLoadRecords("db/asynRecord.db","P=$(DEVICE):, R=ASYNRECORD, PORT=$(PORT), ADDR=0, IMAX=100, OMAX=100")
-dbLoadRecords("db/ipc.template","DEVICE=$(DEVICE), PORT=$(PORT)")
-
+epicsEnvSet("AD485",0x86)
+dbLoadRecords("db/asynRecord.db","P=$(DEVICE):, R=ASYNRECORD, PORT=$(PORT), ADDR=0x86, IMAX=100, OMAX=100")
+dbLoadRecords("db/ipc.template","DEVICE=$(DEVICE),ADDR=$(AD485), PORT=$(PORT)")
+#
 #drvAsynSerialPortConfigure("PSIOPGUN01_PORT", "/dev/ttyACM16", 0, 0, 0)
 #asynSetOption("PSIOPGUN01_PORT", -1, "baud", "9600")
 #asynSetOption("PSIOPGUN01_PORT", -1, "bits", "8")
@@ -32,11 +33,12 @@ dbLoadRecords("db/ipc.template","DEVICE=$(DEVICE), PORT=$(PORT)")
 #asynSetOption("PSIOPGUN01_PORT", -1, "stop", "1")
 #asynSetOption("PSIOPGUN01_PORT", -1, "clocal", "Y")
 #asynSetOption("PSIOPGUN01_PORT", -1, "crtscts", "N")
-#dbLoadRecords("db/asynRecord.db","P=PSIOPGUN01:, R=ASYNRECORD, PORT=PSIOPGUN01_PORT, ADDR=0, IMAX=100, OMAX=100")
-#dbLoadRecords("db/ipc.template","DEVICE=PSIOPGUN01, PORT=PSIOPGUN01_PORT")
+
 
 #asynSetTraceMask("$(DEVICE)",-1,0x9)
 #asynSetTraceIOMask("$(DEVICE)",-1,0x2)
+#asynSetTraceMask("ipcmini1", -1, 0xFF)
+#asynSetTraceIOMask("ipcmini1", -1, 0x2)
 
 cd "${TOP}/iocBoot/${IOC}"
 iocInit
