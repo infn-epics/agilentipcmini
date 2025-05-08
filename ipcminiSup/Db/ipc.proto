@@ -15,7 +15,7 @@
 # $1 = channel: 1 digit - 1-4
 
 ReplyTimeout = 1500;
-ReadTimeout = 400;
+ReadTimeout = 500;
 
 #addr = 0x86; # address
 rd   = 0x30; # read
@@ -26,7 +26,7 @@ nack = 0x15;
 # If the IOC sends messages too fast for the device to handle, the user can
 # incorporate a down time between execution of protocols,
 # by changing the t_sleep[ms] value to a positive non - zero value
-t_sleep = 200;
+t_sleep = 10;
 
 
 handleError

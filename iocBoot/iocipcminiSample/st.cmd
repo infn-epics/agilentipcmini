@@ -16,15 +16,22 @@ dbLoadDatabase "dbd/ipcminiSample.dbd"
 ipcminiSample_registerRecordDeviceDriver pdbbase
 
 ### Create a IPCMini device instance
-epicsEnvSet("DEVICE", "PSIOPDGL02")
+epicsEnvSet("DEVICE", "SPARC:VACUUM")
 epicsEnvSet("PORT", "ipcmini1")
 epicsEnvSet("IP", "192.168.197.105:4002")
 ## Create asyn IP port for communication over TCP/IP
 drvAsynIPPortConfigure ("$(PORT)", "$(IP)")
 ## Load record instances
 epicsEnvSet("AD485",0x86)
-dbLoadRecords("db/asynRecord.db","P=$(DEVICE):, R=ASYNRECORD, PORT=$(PORT), ADDR=0x86, IMAX=100, OMAX=100")
-dbLoadRecords("db/ipc.template","DEVICE=$(DEVICE),ADDR=$(AD485), PORT=$(PORT)")
+dbLoadRecords("db/asynRecord.db","P=$(DEVICE):RFDSIP01:, R=ASYNRECORD, PORT=$(PORT), ADDR=0x85, IMAX=100, OMAX=100")
+dbLoadRecords("db/asynRecord.db","P=$(DEVICE):PTLSIP01:, R=ASYNRECORD, PORT=$(PORT), ADDR=0x86, IMAX=100, OMAX=100")
+dbLoadRecords("db/asynRecord.db","P=$(DEVICE):PTLSIP02:, R=ASYNRECORD, PORT=$(PORT), ADDR=0x87, IMAX=100, OMAX=100")
+
+dbLoadRecords("db/ipc.template","DEVICE=$(DEVICE):RFDSIP01,ADDR=0x85, PORT=$(PORT),SCANRATE=2 second")
+dbLoadRecords("db/ipc.template","DEVICE=$(DEVICE):PTLSIP01,ADDR=0x86, PORT=$(PORT),SCANRATE=2 second")
+dbLoadRecords("db/ipc.template","DEVICE=$(DEVICE):PTLSIP02,ADDR=0x87, PORT=$(PORT),SCANRATE=2 second")
+
+
 #
 #drvAsynSerialPortConfigure("PSIOPGUN01_PORT", "/dev/ttyACM16", 0, 0, 0)
 #asynSetOption("PSIOPGUN01_PORT", -1, "baud", "9600")

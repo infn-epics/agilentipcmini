@@ -4,14 +4,14 @@
 # substitutions:
 # DEVICE  - device name
 # PORT    - streamdevice asyn port
-
+# SCANRATE 
 record(bi, "$(DEVICE):STATUS_RB")
 {
   field(DESC, "Controller Status HV ON/OFF Readback")
   field(DTYP, "stream")
   field(INP,  "@ipc.proto getEnableCH($(ADDR)) $(PORT)")
   field(PINI, "YES")
-  field(SCAN, "2 second")
+  field(SCAN, "5 second")
   field(ZNAM, "OFF")
   field(ONAM, "ON")
 }
@@ -32,7 +32,7 @@ record(mbbi, "$(DEVICE):STAT_RB")
   field(DTYP, "stream")
   field(INP,  "@ipc.proto getStatus($(ADDR)) $(PORT)")
   field(PINI, "YES")
-  field(SCAN, "2 second")
+  field(SCAN, "5 second")
   field(ZRVL, "0")
   field(ZRST, "OK")
   field(ZRSV, "NO_ALARM")
@@ -50,7 +50,7 @@ record(mbbi, "$(DEVICE):MODE_RB")
   field(DTYP, "stream")
   field(INP,  "@ipc.proto getMode($(ADDR)) $(PORT)")
   field(PINI, "YES")
-  field(SCAN, "5 second")
+  field(SCAN, "Passive")
   field(ZRVL, "0")
   field(ZRST, "Serial")
   field(ZRSV, "NO_ALARM")
@@ -83,6 +83,7 @@ record(mbbo, "$(DEVICE):MODE_SP")
   field(THVL, "3")
   field(THST, "LAN") 
   field(THSV, "NO_ALARM")
+  field(FLNK, "$(DEVICE):MODE_RB")  # Link to the readback record
 }
 
 record(calc, "$(DEVICE):ERROR_CALC_") {
@@ -104,7 +105,7 @@ record(mbbiDirect, "$(DEVICE):ERRCODE_RB")
   field(DTYP, "stream")
   field(INP,  "@ipc.proto getErrorCode($(ADDR)) $(PORT) ")
   field(PINI, "YES")
-  field(SCAN, "1 second")
+  field(SCAN, "$(SCANRATE=1 second)")
   field(NOBT, "13")
   field(SHFT, "0")
 }
@@ -159,7 +160,7 @@ record(stringin, "$(DEVICE):MODEL_RB")
   field(DTYP, "stream")
   field(INP,  "@ipc.proto getModel($(ADDR)) $(PORT) ")
   field(PINI, "YES")
-  field(SCAN, "1 second")
+  field(SCAN, "Passive")
 }
 
 record(ai, "$(DEVICE):MAXPWR_RB")
@@ -168,7 +169,7 @@ record(ai, "$(DEVICE):MAXPWR_RB")
   field(DTYP, "stream")
   field(INP,  "@ipc.proto getMaxPower($(ADDR)) $(PORT) ")
   field(PINI, "YES")
-  field(SCAN, "1 second")
+  field(SCAN, "$(LONGSCANRATE=5 second)")
   field(EGU,  "W")
 }
 
@@ -189,9 +190,9 @@ record(ai, "$(DEVICE):PRES_RB")
   field(DTYP, "stream")
   field(INP,  "@ipc.proto getPressure($(ADDR)) $(PORT)")
   field(PINI, "YES")
-  field(SCAN, "1 second")
+  field(SCAN, "$(SCANRATE=1 second)")
   field(EGU,  "mBar")
-  field(PREC, "2")
+  field(PREC, "3")
 }
 
 record(ai, "$(DEVICE):CURR_RB")
@@ -201,7 +202,7 @@ record(ai, "$(DEVICE):CURR_RB")
   field(DTYP, "stream")
   field(INP,  "@ipc.proto getCurrent($(ADDR)) $(PORT) ")
   field(PINI, "YES")
-  field(SCAN, "1 second")
+  field(SCAN, "$(SCANRATE=1 second)")
   field(EGU,  "A")
   field(PREC, "2")
 }
@@ -213,7 +214,7 @@ record(ai, "$(DEVICE):VOLT_RB")
   field(DTYP, "stream")
   field(INP,  "@ipc.proto getVoltage($(ADDR)) $(PORT) ")
   field(PINI, "YES")
-  field(SCAN, "1 second")
+  field(SCAN, "$(SCANRATE=1 second)")
   field(EGU,  "V")
 }
 
@@ -223,7 +224,7 @@ record(bi, "$(DEVICE):AUTOSTART_RB")
   field(DTYP, "stream")
   field(INP,  "@ipc.proto getAutostart($(ADDR)) $(PORT)")
   field(PINI, "YES")
-  field(SCAN, "1 second")
+  field(SCAN, "$(LONGSCANRATE=10 second)")
   field(ZNAM, "Disabled")
   field(ONAM, "Enabled")
 }
@@ -240,11 +241,11 @@ record(bo, "$(DEVICE):AUTOSTART_SP")
 
 record(bi, "$(DEVICE):PROTSTS_RB")
 {
-  field(DESC, "Protect Status Setpoint")
+  field(DESC, "Protect Status Readback")
   field(DTYP, "stream")
   field(INP,  "@ipc.proto getProtectStatus($(ADDR)) $(PORT)")
   field(PINI, "YES")
-  field(SCAN, "1 second")
+  field(SCAN, "$(LONGSCANRATE=10 second)")
   field(ZNAM, "Disabled")
   field(ONAM, "Enabled")
 }
@@ -261,18 +262,18 @@ record(bo, "$(DEVICE):PROTSTS_SP")
 
 record(bi, "$(DEVICE):FIXEDSTEP_RB")
 {
-  field(DESC, "Protect Status Readback")
+  field(DESC, "Fixed Step Readback")
   field(DTYP, "stream")
   field(INP,  "@ipc.proto getFixedStep($(ADDR)) $(PORT)")
   field(PINI, "YES")
-  field(SCAN, "1 second")
+  field(SCAN, "$(LONGSCANRATE=10 second)")
   field(ZNAM, "Disabled")
   field(ONAM, "Enabled")
 }
 
 record(bo, "$(DEVICE):FIXEDSTEP_SP")
 {
-  field(DESC, "Protect Status Setpoint")
+  field(DESC, "Fixed Step Setpoint")
   field(DTYP, "stream")
   field(OUT,  "@ipc.proto setFixedStep($(ADDR)) $(PORT) ")
   field(ZNAM, "Disable")
@@ -286,7 +287,7 @@ record(ai, "$(DEVICE):DEVNUM_RB")
   field(DTYP, "stream")
   field(INP,  "@ipc.proto getDeviceNumberCH($(ADDR)) $(PORT)")
   field(PINI, "YES")
-  field(SCAN, "10 second")
+  field(SCAN, "Passive")
   field(FLNK, "$(DEVICE):DEVNUMPROC")
 }
 
@@ -312,7 +313,7 @@ record(ai, "$(DEVICE):STPT_RB")
   field(DTYP, "stream")
   field(INP,  "@ipc.proto getSetpoint($(ADDR)) $(PORT)")
   field(PINI, "YES")
-  field(SCAN, "1 second")
+  field(SCAN, "Passive")  # Make the readback record passive
   field(PREC, "2")
 }
 
@@ -321,17 +322,18 @@ record(ao, "$(DEVICE):STPT_SP")
   field(DESC, "Setpoint")
   field(DTYP, "stream")
   field(OUT,  "@ipc.proto setSetpoint($(ADDR)) $(PORT)")
+  field(FLNK, "$(DEVICE):STPT_RB")  # Link to the readback record
   field(PINI, "NO")
   field(PREC, "2")
 }
 
 record(ai, "$(DEVICE):VOLTTGT_RB")
 {
-  field(DESC, "Voltage Readback")
+  field(DESC, "Voltage Target Readback")
   field(DTYP, "stream")
   field(INP,  "@ipc.proto getVoltageSP($(ADDR)) $(PORT)")
   field(PINI, "YES")
-  field(SCAN, "1 second")
+  field(SCAN, "Passive")  # Make the readback record passive
   field(EGU,  "V")
 }
 
@@ -341,6 +343,7 @@ record(ao, "$(DEVICE):VOLTTGT_SP")
   field(DTYP, "stream")
   field(OUT,  "@ipc.proto setVoltageSP($(ADDR)) $(PORT)")
   field(PINI, "NO")
+  field(FLNK, "$(DEVICE):VOLTTGT_RB")  # Link to the readback record
   field(EGU,  "V")
 }
 
@@ -350,7 +353,7 @@ record(ai, "$(DEVICE):PROTCURR_RB")
   field(DTYP, "stream")
   field(INP,  "@ipc.proto getProtectCurrent($(ADDR)) $(PORT)")
   field(PINI, "YES")
-  field(SCAN, "1 second")
+  field(SCAN, "$(SCANRATE=1 second)")
   field(EGU,  "uA")
 }
 
@@ -369,7 +372,7 @@ record(bi, "$(DEVICE):STPTSTAT_RB")
   field(DTYP, "stream")
   field(INP,  "@ipc.proto getSetpointStatus($(ADDR)) $(PORT)")
   field(PINI, "YES")
-  field(SCAN, "1 second")
+  field(SCAN, "$(SCANRATE=1 second)")
   field(ZNAM, "OFF")
   field(ONAM, "ON")
 }
@@ -382,7 +385,7 @@ record(ai, "$(DEVICE):TEMPPWR_RB")
   field(PREC, "1")
   field(PINI, "YES")
   field(ASLO, "0.1")
-  field(SCAN, "10 second")
+  field(SCAN, "$(LONGSCANRATE=10 second)")
   field(EGU,  "degC")
 }
 
@@ -394,7 +397,7 @@ record(ai, "$(DEVICE):TEMPCONTR_RB")
   field(PREC, "1")
   field(PINI, "YES")
   field(ASLO, "0.1")
-  field(SCAN, "10 second")
+  field(SCAN, "$(LONGSCANRATE=10 second)")
   field(EGU,  "degC")
 }
 
@@ -404,7 +407,7 @@ record(mbbi, "$(DEVICE):UNIT_RB")
   field(DTYP, "stream")
   field(INP,  "@ipc.proto getUnit($(ADDR)) $(PORT)")
   field(PINI, "YES")
-  field(SCAN, "5 second")
+  field(SCAN, "Passive")  # Make the readback record passive
   field(ZRVL, "0")
   field(ZRST, "Torr")
   field(ONVL, "1")
@@ -418,7 +421,8 @@ record(mbbo, "$(DEVICE):UNIT_SP")
   field(DESC, "Unit Setpoint")
   field(DTYP, "stream")
   field(OUT,  "@ipc.proto setUnit($(ADDR)) $(PORT)")
-  field(PINI, "YES")
+  field(FLNK, "$(DEVICE):UNIT_RB")  # Link to the readback record
+  field(PINI, "NO")
   field(SCAN, "Passive")
   field(ZRVL, "0")
   field(ZRST, "Torr")
@@ -443,7 +447,7 @@ record(mbbi, "$(DEVICE):BAUDRATE_RB")
   field(DTYP, "stream")
   field(INP,  "@ipc.proto getBaudRate($(ADDR)) $(PORT)")
   field(PINI, "YES")
-  field(SCAN, "1 second")
+  field(SCAN, "Passive")
   field(ZRVL, "1")
   field(ZRST, "1200")
   field(ONVL, "2")
@@ -465,17 +469,16 @@ record(stringin, "$(DEVICE):SERNUM_RB")
 
 record(stringin, "$(DEVICE):LABEL_IN")
 {
-  field(DESC, "Lable Readback")
+  field(DESC, "Label Readback")
   field(DTYP, "stream")
   field(INP,  "@ipc.proto getLabel($(ADDR)) $(PORT)")
   field(PINI, "YES")
-  field(SCAN, "1 second")
-  field(FLNK, "$(DEVICE):LABEL_RB")
+  field(SCAN, "Passive")
 }
 
 record(printf, "$(DEVICE):LABEL_RB")
 {
-  field(DESC, "Lable Readback")
+  field(DESC, "Label Readback")
   field(INP0,  "$(DEVICE):LABEL_IN")
   field(FMT, "%.10s")
 }
@@ -485,7 +488,7 @@ record(stringout, "$(DEVICE):LABEL_SP")
   field(DESC, "Label Setpoint")
   field(DTYP, "stream")
   field(OUT,  "@ipc.proto setLabel($(ADDR)) $(PORT) ")
-  field(SCAN, "Passive")
+  field(FLNK, "$(DEVICE):LABEL_IN")
 }
 
 record(mbbi, "$(DEVICE):COMERR")
