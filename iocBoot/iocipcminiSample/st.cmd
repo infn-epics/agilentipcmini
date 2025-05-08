@@ -27,9 +27,9 @@ dbLoadRecords("db/asynRecord.db","P=$(DEVICE):RFDSIP01:, R=ASYNRECORD, PORT=$(PO
 dbLoadRecords("db/asynRecord.db","P=$(DEVICE):PTLSIP01:, R=ASYNRECORD, PORT=$(PORT), ADDR=0x86, IMAX=100, OMAX=100")
 dbLoadRecords("db/asynRecord.db","P=$(DEVICE):PTLSIP02:, R=ASYNRECORD, PORT=$(PORT), ADDR=0x87, IMAX=100, OMAX=100")
 
-dbLoadRecords("db/ipc.template","DEVICE=$(DEVICE):RFDSIP01,ADDR=0x85, PORT=$(PORT),SCANRATE=2 second")
-dbLoadRecords("db/ipc.template","DEVICE=$(DEVICE):PTLSIP01,ADDR=0x86, PORT=$(PORT),SCANRATE=2 second")
-dbLoadRecords("db/ipc.template","DEVICE=$(DEVICE):PTLSIP02,ADDR=0x87, PORT=$(PORT),SCANRATE=2 second")
+dbLoadRecords("db/ipc.template","DEVICE=$(DEVICE):RFDSIP01,ADDR=0x85, PORT=$(PORT),SCANRATE=1 second")
+dbLoadRecords("db/ipc.template","DEVICE=$(DEVICE):PTLSIP01,ADDR=0x86, PORT=$(PORT),SCANRATE=1 second")
+dbLoadRecords("db/ipc.template","DEVICE=$(DEVICE):PTLSIP02,ADDR=0x87, PORT=$(PORT),SCANRATE=1 second")
 
 
 #
@@ -49,4 +49,11 @@ dbLoadRecords("db/ipc.template","DEVICE=$(DEVICE):PTLSIP02,ADDR=0x87, PORT=$(POR
 
 cd "${TOP}/iocBoot/${IOC}"
 iocInit
+epicsThreadSleep(1.5)
+dbpf $(DEVICE):RFDSIP01:MODEL_RB.PROC 1
+dbpf $(DEVICE):PTLSIP01:MODEL_RB.PROC 1
+dbpf $(DEVICE):PTLSIP02:MODEL_RB.PROC 1
+dbpf $(DEVICE):RFDSIP01:SERNUM_RB.PROC 1
+dbpf $(DEVICE):PTLSIP01:SERNUM_RB.PROC 1
+dbpf $(DEVICE):PTLSIP02:SERNUM_RB.PROC 1
 

@@ -26,7 +26,7 @@ nack = 0x15;
 # If the IOC sends messages too fast for the device to handle, the user can
 # incorporate a down time between execution of protocols,
 # by changing the t_sleep[ms] value to a positive non - zero value
-t_sleep = 10;
+t_sleep = 20;
 
 
 handleError
