@@ -22,14 +22,14 @@
 # the CONFIG_SITE file.
 
 # Variables and paths to dependent modules:
-MODULES = /opt/epics/extensions
+MODULES = /epics/support
 #MYMODULE = $(MODULES)/my-module
 
 # If using the sequencer, point SNCSEQ at its top directory:
 #SNCSEQ = $(MODULES)/seq-ver
 
 # EPICS_BASE should appear last so earlier modules can override stuff:
-EPICS_BASE = /opt/epics/base
+EPICS_BASE = /epics/epics-base
 ASYN = $(MODULES)/asyn
 STREAM = $(MODULES)/StreamDevice
 CALC = $(MODULES)/calc
