@@ -31,7 +31,7 @@ SUPPORT = /epics/support
 # EPICS_BASE should appear last so earlier modules can override stuff:
 EPICS_BASE = /epics/epics-base
 ASYN = $(SUPPORT)/asyn
-STREAM = $(SUPPORT)/StreamDevice
+STREAMDEVICE = $(SUPPORT)/StreamDevice
 CALC = $(SUPPORT)/calc
 
 # Set RULES here if you want to use build rules from somewhere

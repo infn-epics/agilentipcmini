@@ -2,6 +2,7 @@
 {
     "name": "My IOC development container",
     "image": "ghcr.io/infn-epics/infn-epics-ioc-developer:latest",
+    
     "runArgs": [
         // Allow the container to access the host X11 display and EPICS CA
         //"--net=host",
