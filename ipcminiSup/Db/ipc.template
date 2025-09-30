@@ -377,6 +377,37 @@ record(bi, "$(DEVICE):STPTSTAT_RB")
   field(ONAM, "ON")
 }
 
+record(calc, "$(DEVICE):STATE_CALC_")
+{
+  field(DESC, "Calculate device state from multiple inputs")
+  field(INPA, "$(DEVICE):STPTSTAT_RB CP")
+  field(INPB, "$(DEVICE):ERROR_RB CP")
+  field(INPC, "$(DEVICE):ERRINTER_RB CP")
+  field(INPD, "$(DEVICE):STATUS_RB CP")
+  field(CALC, "B?2:(C?3:(A&D?1:0))")
+  field(FLNK, "$(DEVICE):STATE_RB PP")
+}
+
+record(mbbi, "$(DEVICE):STATE_RB")
+{
+  field(DESC, "Overall Device State")
+  field(INP, "$(DEVICE):STATE_CALC_")
+  field(PINI, "YES")
+  field(SCAN, "Passive")
+  field(ZRVL, "0")
+  field(ZRST, "OFF")
+  field(ZRSV, "NO_ALARM")
+  field(ONVL, "1")
+  field(ONST, "ON")
+  field(ONSV, "NO_ALARM")
+  field(TWVL, "2")
+  field(TWST, "ERROR")
+  field(TWSV, "MAJOR")
+  field(THVL, "3")
+  field(THST, "INTERLOCK")
+  field(THSV, "MAJOR")
+}
+
 record(ai, "$(DEVICE):TEMPPWR_RB")
 {
   field(DESC, "Power Section Temperature Readback")
