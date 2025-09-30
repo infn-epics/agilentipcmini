@@ -384,7 +384,7 @@ record(calc, "$(DEVICE):STATE_CALC_")
   field(INPB, "$(DEVICE):ERROR_RB CP")
   field(INPC, "$(DEVICE):ERRINTER_RB CP")
   field(INPD, "$(DEVICE):STATUS_RB CP")
-  field(CALC, "B?2:(C?3:(A&D?1:0))")
+  field(CALC, "B?2:(C?3:(A?3:(D?1:0)))")
   field(FLNK, "$(DEVICE):STATE_RB PP")
 }
 
