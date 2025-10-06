@@ -379,12 +379,12 @@ record(bi, "$(DEVICE):STPTSTAT_RB")
 
 record(calc, "$(DEVICE):STATE_CALC_")
 {
-  field(DESC, "Calculate device state from multiple inputs")
+  field(DESC, "Calculate uni state")
   field(INPA, "$(DEVICE):STPTSTAT_RB CP")
   field(INPB, "$(DEVICE):ERROR_RB CP")
-  field(INPC, "$(DEVICE):ERRINTER_RB CP")
-  field(INPD, "$(DEVICE):STATUS_RB CP")
-  field(CALC, "B?2:(C?3:(A?3:(D?1:0)))")
+  field(INPC, "$(DEVICE):STATUS_RB CP")
+  field(INPD, "$(INTERLOCK_ENABLE=0)")
+  field(CALC, "B?2:(C==0?0:((D==1)&&(A==0)?3:1))")
   field(FLNK, "$(DEVICE):STATE_RB PP")
 }
 
