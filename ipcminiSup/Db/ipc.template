@@ -383,8 +383,8 @@ record(calc, "$(DEVICE):STATE_CALC_")
   field(INPA, "$(DEVICE):STPTSTAT_RB CP")
   field(INPB, "$(DEVICE):ERROR_RB CP")
   field(INPC, "$(DEVICE):STATUS_RB CP")
-  field(INPD, "$(INTERLOCK_ENABLE=0)")
-  field(CALC, "B?2:(C==0?0:((D==1)&&(A==0)?3:1))")
+  field(INPD, "$(DEVICE):ERRINTER_RB CP")
+  field(CALC, "B&&!D?2:(C==0?0:(D?3:((A==0)?4:1)))")
   field(FLNK, "$(DEVICE):STATE_RB PP")
 }
 
@@ -406,6 +406,9 @@ record(mbbi, "$(DEVICE):STATE_RB")
   field(THVL, "3")
   field(THST, "INTERLOCK")
   field(THSV, "MAJOR")
+  field(FRVL, "4")
+  field(FRST, "WARNING")
+  field(FRSV, "MINOR")
 }
 
 record(ai, "$(DEVICE):TEMPPWR_RB")
